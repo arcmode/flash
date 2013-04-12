@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="build/build.css" type="text/css" media="screen" title="no title" charset="utf-8">
+<script src="build/build.js"></script>
+<script type="text/javascript" charset="utf-8">
+  var Flash = require('flash');
+  var flash = new Flash();
+  window.onload = function(){
+    flash.flash({
+      innerHTML: 'hola',
+      className:'right bottom',
+      style: {
+        right: '10px',
+        bottom: '20px'
+      }
+    });
+  };
+</script>

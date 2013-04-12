@@ -1,0 +1,22 @@
+.flash {
+  padding: 20px;
+  background: #000;
+  color: #fff;
+  position: fixed;
+}
+
+.flash.top {
+  top: 50px;
+}
+
+.flash.right {
+  right: 50px;
+}
+
+.flash.bottom {
+  bottom: 50px;
+}
+
+.flash.left {
+  left: 50px;
+}

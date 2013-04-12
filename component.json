@@ -1,0 +1,19 @@
+{
+  "name": "flash",
+  "repo": "drojas/flash",
+  "description": "Flash component",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "component/emitter": "*",
+    "esundahl/flash": "*"
+  },
+  "development": {},
+  "license": "MIT",
+  "scripts": [
+    "index.js"
+  ],
+  "styles": [
+    "flash.css"
+  ]
+}
