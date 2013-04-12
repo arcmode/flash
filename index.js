@@ -47,18 +47,19 @@ var flash = function(data){
 var upgrade = function(base, patch, force, additive, stringGlue) {
   for (var prop in patch) {
     if (patch.hasOwnProperty(prop)) {
-      if (! base.hasOwnProperty(prop) || force){
-        base[prop] = patch[prop];
-      }
-      if (additive && ! force) {
-        switch (typeof base[prop]) {
-          case 'string':
-            base[prop] += (stringGlue || '') + patch[prop];
-            break;
-          case 'number':
-            base[prop] += + patch[prop];
-            break;
+      var hasProperty = base.hasOwnProperty(prop);
+      if (base[prop] instanceof Object) {
+        for (var child in base[prop]) {
+          upgrade(base[prop], patch[prop], force, additive, stringGlue);
+          return;
         }
+      } else{
+        if (((force) || (! hasProperty)) && (! additive)) {
+          base[prop] = patch[prop];
+        }
+        if ((! force) && additive && hasProperty) {
+          base[prop] += (base[prop].constructor(stringGlue)) + patch[prop];
+        }      
       }
     }
   }
