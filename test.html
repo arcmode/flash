@@ -4,13 +4,15 @@
   var Flash = require('flash');
   var flash = new Flash();
   window.onload = function(){
-    flash.flash({
+    var data = {
       innerHTML: 'hola',
       className:'right bottom',
       style: {
         right: '10px',
         bottom: '20px'
       }
-    });
+    };
+    flash.init();
+    flash.events.emit('flash', data);
   };
 </script>

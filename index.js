@@ -13,11 +13,28 @@
  * Module dependencies
  */
 
-var Emitter = require('emitter');
+var Core = require('core');
 
 /*
- * Utils
+ * Private
  */
+
+/**
+ * @method flash
+ * @description 
+ *   Flash a message.
+ * 
+ * @return {Flash} this for chaining
+ * @api private
+ */
+
+var flash = function(data){
+  var el = document.createElement('div');
+  el.className = 'animated flash';
+  upgrade(el, data, false, true, ' ');
+  document.body && document.body.appendChild(el);
+  return this;
+};
 
 /**
  * @method upgrade
@@ -51,69 +68,34 @@ var upgrade = function(base, patch, force, additive, stringGlue) {
  * @constructor Flash
  */
 
-var Flash = function() {
-  this.events = new Emitter();
-};
+var Flash = function() {};
 
+/*
+ * Inherit from Core
+ */
+
+Flash.prototype = new Core();
+ 
 /**
- * @method init
+ * @method onChangeStatus
  * @description 
- *   Adopt events from parent and listen flash events.
+ *   Switch on|off flash events.
  * 
- * @return {Flash} this for chaining
  * @api public
  */
 
-Flash.prototype.init = function(core){
-  this.joinEvents(core);
-  this.listenFlash();
-  return this;
-};
-
-/**
- * @method joinEvents
- * @description 
- *   Adopt events from parent.
- * 
- * @return {Flash} this for chaining
- * @api public
- */
-Flash.prototype.joinEvents = function(obj) {
-  if (obj.hasOwnProperty('events')) {
-    this.events = obj.events;
+Flash.prototype.events.on('change status', function onChangeStatus(event) {
+  if (event.target instanceof Flash) {
+    switch (event.data.success) {
+      case 'running':
+        event.target.events.on('flash', flash);
+        break;
+      case 'stopped':
+        event.target.events.off('flash', flash);
+        break;
+    }
   }
-  return this;
-};
-
-/**
- * @method listenFlash
- * @description 
- *   Listen flash events.
- * 
- * @return {Flash} this for chaining
- * @api public
- */
-Flash.prototype.listenFlash = function() {
-  this.events.on('flash', flash);
-  return this;
-};
-
-/**
- * @method flash
- * @description 
- *   Flash a message.
- * 
- * @return {Flash} this for chaining
- * @api public
- */
-
-Flash.prototype.flash = function(data){
-  var el = document.createElement('div');
-  el.className = 'animated flash';
-  upgrade(el, data, false, true, ' ');
-  document.body && document.body.appendChild(el);
-  return this;
-};
+});
 
 /*
  * Expose `Flash`
